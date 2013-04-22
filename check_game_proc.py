@@ -27,8 +27,8 @@ for line in ConfFile.readlines():
 def log_content(write):
 	logname = now.strftime('%Y%m%d')
 	logfilename = "/var/log/check_game/%s" %(logname)
-	writelog = open(logfilename,'w')	
-	writelog.write(write)
+	writelog = open(logfilename,'a')	
+	writelog.writelines(write)
 	writelog.close
 
 def print_lost(info):
@@ -37,16 +37,17 @@ def print_lost(info):
 
 
 def judge(info):
+	CorrectNum = len(usernamelist) - len(info)
 	if len(info) != 0 :
-		print "GameProcs CRITICAL - ErrorNum/AllNum: %s/%s" %(len(info),len(usernamelist))
+		print "GameProcs CRITICAL - ErrorNum/AllNum: %s/%s|CorrectNum=%s;AllNum=%s" %(len(info),len(usernamelist),len(usernamelist),CorrectNum)
 		for Key in info:
 			print_lost_list = print_lost(info[Key])
-			out = "%s %s proc error,lost proc list is : %s" %(logtime,Key,print_lost_list)
+			out = "%s %s proc error,lost proc list is : %s\n" %(logtime,Key,print_lost_list)
 			print out
 			log_content(out)
 		sys.exit(2)
 	else:
-		print 'GameProcs OK - CorrectNum/AllNum: %s/%s' %(len(usernamelist),len(usernamelist))
+		print 'GameProcs OK - CorrectNum/AllNum: %s/%s|CorrectNum=%s;AllNum=%s' %(len(usernamelist),len(usernamelist),len(usernamelist),CorrectNum)
 		sys.exit(0)
 
 def ssh(username,zone_s1):

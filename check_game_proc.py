@@ -20,6 +20,8 @@ for line in ConfFile.readlines():
 			usernamelist.append([split[0],split[2]])	
 		else:
 			pass
+def log_content(write):
+	
 
 def print_lost(info):
 	for lost in info:
@@ -31,7 +33,7 @@ def judge(info):
 		print "GameProcs CRITICAL - ErrorNum/AllNum: %s/%s" %(len(info),len(usernamelist))
 		for Key in info:
 			print_lost_list = print_lost(info[Key])
-			print "%s proc error,lost proc list is : %s" %(Key,print_lost_list)
+			out = "%s proc error,lost proc list is : %s" %(Key,print_lost_list)
 		sys.exit(2)
 	else:
 		print 'GameProcs OK - CorrectNum/AllNum: %s/%s' %(len(usernamelist),len(usernamelist))

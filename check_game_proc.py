@@ -2,11 +2,15 @@
 #-*- conding: utf-8 -*-
 import re
 import sys
+import os
 import paramiko
 import profile
+import datetime
 
 hostname = sys.argv[1]
 ConfFile = open ('/md/publish/serverInfo.cfg','r')
+now = datetime.datetime.now()
+logtime = now.strftime('%Y-%m-%d %H:%M:%S')
 name_lost = {}
 usernamelist = []
 for line in ConfFile.readlines():
@@ -21,7 +25,11 @@ for line in ConfFile.readlines():
 		else:
 			pass
 def log_content(write):
-	
+	logname = now.strftime('%Y%m%d')
+	logfilename = "/var/log/check_game/%s" %(logname)
+	writelog = open(logfilename,'w')	
+	writelog.write(write)
+	writelog.close
 
 def print_lost(info):
 	for lost in info:
@@ -33,7 +41,9 @@ def judge(info):
 		print "GameProcs CRITICAL - ErrorNum/AllNum: %s/%s" %(len(info),len(usernamelist))
 		for Key in info:
 			print_lost_list = print_lost(info[Key])
-			out = "%s proc error,lost proc list is : %s" %(Key,print_lost_list)
+			out = "%s %s proc error,lost proc list is : %s" %(logtime,Key,print_lost_list)
+			print out
+			log_content(out)
 		sys.exit(2)
 	else:
 		print 'GameProcs OK - CorrectNum/AllNum: %s/%s' %(len(usernamelist),len(usernamelist))

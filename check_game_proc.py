@@ -4,7 +4,7 @@ import re
 import sys
 import os
 import paramiko
-import profile
+#import profile
 import datetime
 
 hostname = sys.argv[1]
@@ -39,15 +39,15 @@ def print_lost(info):
 def judge(info):
 	CorrectNum = len(usernamelist) - len(info)
 	if len(info) != 0 :
-		print "GameProcs CRITICAL - ErrorNum/AllNum: %s/%s|CorrectNum=%s;AllNum=%s" %(len(info),len(usernamelist),len(usernamelist),CorrectNum)
+		print "GameProcs CRITICAL - ErrorNum/AllNum: %s/%s|CorrectNum=%s;AllNum=%s" %(len(info),len(usernamelist),CorrectNum,len(usernamelist))
 		for Key in info:
 			print_lost_list = print_lost(info[Key])
 			out = "%s %s proc error,lost proc list is : %s\n" %(logtime,Key,print_lost_list)
-			print out
+#			print out
 			log_content(out)
 		sys.exit(2)
 	else:
-		print 'GameProcs OK - CorrectNum/AllNum: %s/%s|CorrectNum=%s;AllNum=%s' %(len(usernamelist),len(usernamelist),len(usernamelist),CorrectNum)
+		print 'GameProcs OK - CorrectNum/AllNum: %s/%s|CorrectNum=%s;AllNum=%s' %(len(usernamelist),len(usernamelist),CorrectNum,len(usernamelist))
 		sys.exit(0)
 
 def ssh(username,zone_s1):

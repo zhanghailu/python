@@ -2,7 +2,7 @@
 #-*- conding: utf-8 -*-
 
 
-import os
+import commands
 import re
 
 
@@ -13,7 +13,7 @@ def zonename():
 		rematch = re.match(r'_\w+_s(?=\d+:)',line)
 		split = re.split(r':',line)
 		if rematch:
-			print split[0]
+			print split[0],split[2]
 		else:
 			pass
 def getconprocs(info):
@@ -27,6 +27,9 @@ def getconprocs(info):
 	print len(conprocs)
 	return conprocs
 
+def getnowprocs(username):
+	procsout = commands.getoutput('ps  -u %s' % username)
+	print procsout
 
 
 
@@ -53,6 +56,7 @@ def getzoneinfo(zonename,zone_s1):
 
 
 if __name__ == '__main__':
-'''test
-#	zonename()
-#	getzoneinfo('_ihuanju_s1','s2')'''
+
+	zonename()
+	getzoneinfo('_ihuanju_s1','s2')
+	getnowprocs('zhangumilu')
